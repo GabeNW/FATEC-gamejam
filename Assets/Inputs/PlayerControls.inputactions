@@ -3,12 +3,12 @@
     "maps": [
         {
             "name": "Player",
-            "id": "6130e473-af91-45f7-98f7-61a661eea63c",
+            "id": "a9501dea-d679-4192-af00-b175287fdd48",
             "actions": [
                 {
                     "name": "Move",
                     "type": "Value",
-                    "id": "85dd93c4-c8f1-4ea6-86ad-0e3d5e48ba1b",
+                    "id": "7d0c29ee-e901-4b34-8208-2bf2cd2ce387",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -17,25 +17,16 @@
                 {
                     "name": "Jump",
                     "type": "Button",
-                    "id": "8f30ca08-40ae-4960-ba9a-90ed9bf7a1d1",
+                    "id": "66fddf94-1f46-491d-8bda-76cd9645f864",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchDimensionUp",
+                    "name": "Dash",
                     "type": "Button",
-                    "id": "160dd2df-a25c-420c-97b1-89092a21092f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SwitchDimensionDown",
-                    "type": "Button",
-                    "id": "eea54eb1-f7a7-4284-acea-8e49f9745a76",
+                    "id": "43ea89ff-683d-4856-83f7-123fd9c8ae09",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -66,9 +57,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "right",
-                    "id": "320bffee-a40b-4347-ac70-c210eb8bc73a",
-                    "path": "<Keyboard>/d",
+                    "name": "up",
+                    "id": "e2062cb9-1b15-46a2-838c-2f8d72a0bdd9",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -77,9 +68,31 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
+                    "name": "up",
+                    "id": "8180e8bd-4097-4f4e-ab88-4523101a6ce9",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "320bffee-a40b-4347-ac70-c210eb8bc73a",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
                     "id": "1c5327b5-f71c-4f60-99c7-4e737386f1d1",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -102,6 +115,28 @@
                     "name": "left",
                     "id": "2e46982e-44cc-431b-9f0b-c11910bf467a",
                     "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "fcfe95b8-67b9-4526-84b5-5d0bc98d6400",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "77bff152-3580-4b21-b6de-dcd0c7e41164",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -133,56 +168,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7846707c-a002-458e-bbeb-fbcf3fd8d7eb",
+                    "id": "160f230b-9250-472d-851b-843b471052a0",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "e5eacc73-71ac-4300-a17c-bc15cf31e417",
-                    "path": "<Keyboard>/w",
+                    "id": "5a2ea3b8-a343-450e-ad60-26f9176fd996",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimensionUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6b3f5c02-2d52-4b45-a605-bc649f36e737",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimensionUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d7552fe1-e0f1-4d5f-98c1-be8c519d22ef",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimensionDown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "062df125-578f-4810-ae39-c98c0b3a25af",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimensionDown",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -190,12 +192,12 @@
         },
         {
             "name": "UI",
-            "id": "485c95ba-4621-4b1a-86c3-61afb74769c5",
+            "id": "908bea76-327a-45bf-abba-263911ae6008",
             "actions": [
                 {
                     "name": "Navigate",
                     "type": "PassThrough",
-                    "id": "451e3da8-a736-434a-ab20-612f8e5a4573",
+                    "id": "a3bad51e-bb61-4efe-8579-c88b6966dc13",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -204,7 +206,7 @@
                 {
                     "name": "Submit",
                     "type": "Button",
-                    "id": "b194b1d0-cb2f-48b7-9d5e-240c62893862",
+                    "id": "7e10ae97-dbfd-48ff-8270-970b1ab8fd81",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -213,7 +215,7 @@
                 {
                     "name": "Cancel",
                     "type": "Button",
-                    "id": "946f76e9-92ce-46fd-bba9-ff07572acd3c",
+                    "id": "7a6b3873-95fe-453f-8f73-d49ff1d9586b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -222,7 +224,7 @@
                 {
                     "name": "Point",
                     "type": "PassThrough",
-                    "id": "2eb8f48b-70d7-4ff2-a725-2b825b6ae511",
+                    "id": "0b5b76d0-02c4-475b-8b1f-afbc277fb196",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -231,7 +233,7 @@
                 {
                     "name": "Click",
                     "type": "PassThrough",
-                    "id": "32c21019-2b27-4944-8849-f897843aa95b",
+                    "id": "4fd9e14f-2c52-4d55-8c55-da1be990929d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -240,7 +242,7 @@
                 {
                     "name": "ScrollWheel",
                     "type": "PassThrough",
-                    "id": "7c28bb5b-1f06-4ec0-8e79-b2160e664bde",
+                    "id": "1fb80e63-a628-46ed-a238-40108db6c1cd",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -249,7 +251,7 @@
                 {
                     "name": "MiddleClick",
                     "type": "PassThrough",
-                    "id": "7370757c-485b-49cc-bdf5-33de7e7b73e4",
+                    "id": "1c4939b2-87a4-4a47-9d98-84437708dbbe",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -258,7 +260,7 @@
                 {
                     "name": "RightClick",
                     "type": "PassThrough",
-                    "id": "bbe0fe73-fca7-4f5b-bfa1-291e429569a3",
+                    "id": "1b13cc75-b8a7-4b41-894b-71815c60ebaa",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -267,7 +269,7 @@
                 {
                     "name": "TrackedDevicePosition",
                     "type": "PassThrough",
-                    "id": "35d49391-27f5-49aa-8e76-6c04add68d07",
+                    "id": "1f60ab7b-4b8a-444e-8d45-82cbb4d8da1e",
                     "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
@@ -276,7 +278,7 @@
                 {
                     "name": "TrackedDeviceOrientation",
                     "type": "PassThrough",
-                    "id": "ccff6816-8116-4e2e-9e49-dc4fa6a6c936",
+                    "id": "1022f6a7-aa0f-4c3a-9aa9-ddff1af2501e",
                     "expectedControlType": "Quaternion",
                     "processors": "",
                     "interactions": "",
