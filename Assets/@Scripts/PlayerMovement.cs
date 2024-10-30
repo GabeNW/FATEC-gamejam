@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Pulo")]
     [SerializeField] private float jumpPower = 16f;
     private bool isJumping = false;
-    [Header("Gravity")]
+    [Header("Gravidade")]
     [SerializeField] private float baseGravity = 2;
     [SerializeField] private float maxFallSpd = 18;
     [SerializeField] private float fallSpdMultiplier = 2;
