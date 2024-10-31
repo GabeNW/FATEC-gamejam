@@ -4,17 +4,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Dependencias")]
+    [Header("Dependencies")]
     [SerializeField] private Rigidbody2D rb;
 
-    [Header("Movimento")]
+    [Header("Movement")]
     [SerializeField] private float speed = 5;
     private float horizontal;
 
-    [Header("Pulo")]
+    [Header("Jump")]
     [SerializeField] private float jumpPower = 16f;
     private bool isJumping = false;
-    [Header("Gravidade")]
+    [Header("Gravity")]
     [SerializeField] private float baseGravity = 2;
     [SerializeField] private float maxFallSpd = 18;
     [SerializeField] private float fallSpdMultiplier = 2;
@@ -30,11 +30,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashingTime = 0.2f;
     [SerializeField] private float dashingCooldown = 0.5f;
     [SerializeField] private TrailRenderer tr;
-    [Header("Coyote Time")]
-    [SerializeField] private float coyoteTime = 0.2f;
-    [SerializeField] private float coyoteTimeCounter;
     private bool canDash = true;
     private bool isDashing;
+
+    [Header("Gamefeel")]
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float coyoteTimeCounter;
 
     //[Header("Animação")]
     private bool isFacingRight = true;
@@ -135,12 +136,13 @@ public class PlayerMovement : MonoBehaviour
     private void CoyoteTime()
     {
         if(isGrounded())
-        {
             coyoteTimeCounter = coyoteTime;
-        }
         else
         {
-            coyoteTimeCounter -= Time.deltaTime;
+            if (coyoteTimeCounter > 0)
+                coyoteTimeCounter -= Time.deltaTime;
+            else
+                coyoteTimeCounter = 0;
         }
     }
 

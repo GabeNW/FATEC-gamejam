@@ -859,8 +859,10 @@ MonoBehaviour:
     rgba: 4281977917
   dashingPower: 24
   dashingTime: 0.2
-  dashingCooldown: 0.5
+  dashingCooldown: 1
   tr: {fileID: 2034646411}
+  coyoteTime: 0.2
+  coyoteTimeCounter: 0.15
 --- !u!96 &2034646411
 TrailRenderer:
   serializedVersion: 3
