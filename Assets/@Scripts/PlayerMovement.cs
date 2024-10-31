@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashingTime = 0.2f;
     [SerializeField] private float dashingCooldown = 0.5f;
     [SerializeField] private TrailRenderer tr;
+    [Header("Coyote Time")]
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float coyoteTimeCounter;
     private bool canDash = true;
     private bool isDashing;
 
@@ -39,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Flip();
+        CoyoteTime();
     }
 
     private void FixedUpdate()
@@ -59,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         //O botão de pulo foi apertado
-        if (context.started && isGrounded() && !isJumping)
+        if (context.started && coyoteTimeCounter > 0f && !isJumping)
         {
             isJumping = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
@@ -69,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (rb.velocity.y > 0 && isJumping)
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                coyoteTimeCounter = 0f;
             isJumping = false;
         }
 
@@ -124,6 +129,18 @@ public class PlayerMovement : MonoBehaviour
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
+        }
+    }
+
+    private void CoyoteTime()
+    {
+        if(isGrounded())
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
         }
     }
 
