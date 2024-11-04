@@ -6,6 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField]private CapsuleCollider2D col;
+    [SerializeField]private Vector2 frameVelocity;
+    
+
 
     [Header("Movement")]
     [SerializeField] private float speed = 5;
@@ -37,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.2f;
     [SerializeField] private float coyoteTimeCounter;
 
+    [Header("Layer")]
+    [SerializeField]private LayerMask PlayerLayer;
+
     //[Header("Animação")]
     private bool isFacingRight = true;
     
@@ -46,12 +53,21 @@ public class PlayerMovement : MonoBehaviour
         CoyoteTime();
     }
 
+    private void EdgeDetection()
+    {
+        bool ceilingHit = Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.up, 0.5f, ~PlayerLayer);
+
+            // Hit a Ceiling
+            if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);
+    }
+
     private void FixedUpdate()
     {
         if (isDashing)
             return;
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         Gravity();
+        EdgeDetection();
     }
 
     //Inputs
