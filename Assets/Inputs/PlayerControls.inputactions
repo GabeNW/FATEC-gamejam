@@ -33,9 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchDimension",
+                    "name": "SwitchDimensionUP",
                     "type": "Value",
                     "id": "211dd3da-a38a-4744-b5a0-2e15919a6480",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchDimensionDown",
+                    "type": "Value",
+                    "id": "7df7154f-1938-439b-820f-8b9f0807f16b",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -127,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "SwitchDimension",
+                    "action": "SwitchDimensionUP",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -137,30 +146,30 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimension",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchDimensionUP",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b0ddaeb3-90b2-4379-8bef-7c4e9f22d30c",
+                    "id": "a9dcbcd7-831c-4b84-8f5c-c06f23e1b52f",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimension",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchDimensionDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "69c7028d-6cab-4cab-bab2-23b1660d4865",
+                    "id": "f63e818f-a29b-4aa2-bf3e-5e169b0a91af",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchDimension",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchDimensionDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

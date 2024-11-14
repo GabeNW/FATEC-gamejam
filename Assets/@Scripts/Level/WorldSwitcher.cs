@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WorldSwitcher : MonoBehaviour
 {
@@ -13,28 +14,40 @@ public class WorldSwitcher : MonoBehaviour
         SwitchWorld(currentWorld);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchWorldUp(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (context.performed)
         {
-            currentWorld++;
-            if (currentWorld >= tileMaps.Count)
-            {
+            if (!(currentWorld+1 >= tileMaps.Count))
+                currentWorld++;
+            else
                 currentWorld = 0;
-            }
             SwitchWorld(currentWorld);
-        }   
+        }
     }
 
-    void SwitchWorld(int target = 0) {
+    public void SwitchWorldDown(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (currentWorld > 0)
+                currentWorld--;
+            else
+                currentWorld = tileMaps.Count - 1;
+            SwitchWorld(currentWorld);
+        }
+    }
+
+    private void SwitchWorld(int target = 0) 
+    {
         for(int i=0; i<tileMaps.Count; i++)
         {
             if(i == target)
             {
                 tileMaps[i].SetActive(true);
                 backgroundMaps[i].SetActive(true);
-            } else
+            }
+            else
             {
                 tileMaps[i].SetActive(false);
                 backgroundMaps[i].SetActive(false);
