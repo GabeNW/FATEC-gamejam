@@ -15,11 +15,11 @@ MonoBehaviour:
   allSceneList:
   - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
   - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
-  - {fileID: 102900000, guid: 1d80e901634b5a33587c6ecf6fb6da6f, type: 3}
+  - {fileID: 102900000, guid: 71e128d46c020ba408e8a7293a9bfad7, type: 3}
   coreScenesList:
   - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
   - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
-  - {fileID: 102900000, guid: 1d80e901634b5a33587c6ecf6fb6da6f, type: 3}
+  - {fileID: 102900000, guid: 71e128d46c020ba408e8a7293a9bfad7, type: 3}
   menuScene: Menu
   loadingScene: Loading
   firstLevelScene: Level1

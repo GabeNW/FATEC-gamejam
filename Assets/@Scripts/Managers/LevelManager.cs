@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     private void CurrentSceneData()
     {
         currentLevel = levelManagerData.GetLevelData(GameManager.Instance.CurrentScene());
+        GameManager.Instance.currentLevel = currentLevel;
     }
-
 
 }

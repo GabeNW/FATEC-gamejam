@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "Level Manager Data", menuName = "ScritableOBJ/Data Containers/Level Manager Data")]
 public class LevelManagerData : ScriptableObject
 {
@@ -8,9 +9,6 @@ public class LevelManagerData : ScriptableObject
     [SerializeField] private List<LevelData> levelList;
     //Dicionário que mapeará o nome da cena aos ScriptableObjects
     private Dictionary<string, LevelData> levelDataDictionary;
-
-    //Scriptable object com todas as cenas
-    [SerializeField] private ScenesData scenesData;
 
     public void Initialize()
     {
@@ -62,7 +60,6 @@ public class LevelManagerData : ScriptableObject
     //Função para acessar o primeiro Level
     public LevelData GetFirstLevel()
     {
-        scenesData.Initialize();
         if (levelDataDictionary == null)
         {
 #if UNITY_EDITOR
@@ -70,7 +67,7 @@ public class LevelManagerData : ScriptableObject
 #endif
             Initialize();
         }
-        if (levelDataDictionary.TryGetValue(scenesData.firstLevelScene, out LevelData levelData))
+        if (levelDataDictionary.TryGetValue("Level1", out LevelData levelData))
         {
             return levelData;
         }

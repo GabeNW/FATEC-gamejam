@@ -7,7 +7,6 @@ public class WorldSwitcher : MonoBehaviour
 {
     //Listas para armazenar os tilemaps e backgrounds
     [SerializeField] private List<GameObject> tileMaps;
-    [SerializeField] private List<GameObject> backgroundMaps;
     [SerializeField] private LevelManager levelManager;
     //Variável para armazenar o mundo atual
     private int currentWorld = 0;
@@ -51,15 +50,9 @@ public class WorldSwitcher : MonoBehaviour
         for(int i = 0; i < tileMaps.Count; i++)
         {
             if(i == target)
-            {
                 tileMaps[i].SetActive(true);
-                backgroundMaps[i].SetActive(true);
-            }
             else
-            {
                 tileMaps[i].SetActive(false);
-                backgroundMaps[i].SetActive(false);
-            }
         }
     }
 }

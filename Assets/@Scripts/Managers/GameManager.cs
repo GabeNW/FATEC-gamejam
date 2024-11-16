@@ -7,12 +7,13 @@ public class GameManager : Singleton<GameManager>
 {
     //Todas as cenas
     [SerializeField] private ScenesData scenesData;
+    [HideInInspector] public LevelData currentLevel;
+    private int scrapCollected;
 
     //Override do método Awake do singleton
     protected override void Awake()
     {
         base.Awake();
-        scenesData.Initialize();
         Scene activeScene = SceneManager.GetActiveScene();
         if (activeScene.name == scenesData.loadingScene)
             LoadScene(scenesData.menuScene);
@@ -44,27 +45,26 @@ public class GameManager : Singleton<GameManager>
         return activeScene.name;
     }
 
-    //Função para buscar GameObjects (até os desativados)
-    private GameObject FindGameObject(string name)
+    private void LevelClear()
     {
-        List<GameObject> GetAllObjectsOnlyInScene()
-        {
-            List<GameObject> objectsInScene = new List<GameObject>();
-            foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-            {
 #if UNITY_EDITOR
-                if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
-#else
-                if (!(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))   
+        Debug.Log("Level Cleared");
 #endif
-                    objectsInScene.Add(go);
-            }
-            return objectsInScene;
-        }
+        currentLevel.completed = true;
+        LoadScene("Menu");
+    }
 
-        List<GameObject> objectsInScene = GetAllObjectsOnlyInScene();
-        GameObject obj = objectsInScene.Find(obj => obj.name == name);
-        return obj;
+    public bool AddCollected()
+    {
+        if (scrapCollected < currentLevel.scrap)
+        {
+            scrapCollected++;
+            if(scrapCollected == currentLevel.scrap)
+                LevelClear();
+            return true;
+        }
+        else
+            return false;
     }
 
     //Função para carregar cenas
@@ -87,5 +87,28 @@ public class GameManager : Singleton<GameManager>
 #else
         Application.Quit();
 #endif
+    }
+
+    //Função para buscar GameObjects (até os desativados)
+    private GameObject FindGameObject(string name)
+    {
+        List<GameObject> GetAllObjectsOnlyInScene()
+        {
+            List<GameObject> objectsInScene = new List<GameObject>();
+            foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+            {
+#if UNITY_EDITOR
+                if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
+#else
+                if (!(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))   
+#endif
+                    objectsInScene.Add(go);
+            }
+            return objectsInScene;
+        }
+
+        List<GameObject> objectsInScene = GetAllObjectsOnlyInScene();
+        GameObject obj = objectsInScene.Find(obj => obj.name == name);
+        return obj;
     }
 }
