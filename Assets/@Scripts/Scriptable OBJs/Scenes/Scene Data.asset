@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e0c02728d80ee4486307277eae6f0b, type: 3}
+  m_Name: Scene Data
+  m_EditorClassIdentifier: 
+  allSceneList:
+  - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
+  - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
+  - {fileID: 102900000, guid: 1d80e901634b5a33587c6ecf6fb6da6f, type: 3}
+  coreScenesList:
+  - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
+  - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
+  - {fileID: 102900000, guid: 1d80e901634b5a33587c6ecf6fb6da6f, type: 3}
+  menuScene: Menu
+  loadingScene: Loading
+  firstLevelScene: Level1
