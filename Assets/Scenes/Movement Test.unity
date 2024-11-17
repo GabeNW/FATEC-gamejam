@@ -1262,10 +1262,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 22.5, y: 9.7}
-      - {x: -2.2, y: 9.7}
-      - {x: -2.2, y: -4.35}
-      - {x: 22.5, y: -4.35}
+    - - {x: 22.5, y: 9.5}
+      - {x: -2.2, y: 9.5}
+      - {x: -2.2, y: -4}
+      - {x: 22.5, y: -4}
   m_UseDelaunayMesh: 0
 --- !u!114 &559631958
 MonoBehaviour:
@@ -1507,10 +1507,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 22.5, y: 9.7}
-      - {x: -2.2, y: 9.7}
-      - {x: -2.2, y: -4.35}
-      - {x: 22.5, y: -4.35}
+    - - {x: 22.5, y: 9.5}
+      - {x: -2.2, y: 9.5}
+      - {x: -2.2, y: -4}
+      - {x: 22.5, y: -4}
   m_UseDelaunayMesh: 0
 --- !u!4 &724791119
 Transform:
@@ -2115,10 +2115,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 22.5, y: 9.7}
-      - {x: -2.2, y: 9.7}
-      - {x: -2.2, y: -4.35}
-      - {x: 22.5, y: -4.35}
+    - - {x: 22.5, y: 9.5}
+      - {x: -2.2, y: 9.5}
+      - {x: -2.2, y: -4}
+      - {x: 22.5, y: -4}
   m_UseDelaunayMesh: 0
 --- !u!114 &1468446888
 MonoBehaviour:
@@ -2928,10 +2928,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 22.5, y: 9.7}
-      - {x: -2.2, y: 9.7}
-      - {x: -2.2, y: -4.35}
-      - {x: 22.5, y: -4.35}
+    - - {x: 22.5, y: 9.5}
+      - {x: -2.2, y: 9.5}
+      - {x: -2.2, y: -4}
+      - {x: 22.5, y: -4}
   m_UseDelaunayMesh: 0
 --- !u!114 &2029553298
 MonoBehaviour:
