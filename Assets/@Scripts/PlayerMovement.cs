@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField]private CapsuleCollider2D col;
     [SerializeField]private Vector2 frameVelocity;
+    [SerializeField] Animator animator;
     
     [Header("Movement")]
     [SerializeField] private float speed = 5;
@@ -73,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         if (isDashing)
             return;
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         Gravity();
         EdgeDetection();
     }
