@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 55510bed23b661340a1629e3b515d601
+guid: 3726f0b4e2a764943875c0d899bfc0e8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gato_walk (direita)_0
+      name: gato_jump-up (esquerda)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 122a8718996ff304c85d54822f0f7a14
-      internalID: 585251706
+      spriteID: 035612735bb7f9c4a8c2e2c88d2c6786
+      internalID: 1839896791
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_1
+      name: gato_jump-up (esquerda)_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fb81d20d2c8e0c4587093eb2b4edcb3
-      internalID: -159039833
+      spriteID: 2144a670b613e9f48a89bad86b514d12
+      internalID: 115435607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_2
+      name: gato_jump-up (esquerda)_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1884feb46272b84ea3186d28c505d4a
-      internalID: -304358632
+      spriteID: 30c856f572eb53c4aa255e175025549c
+      internalID: 992679207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_3
+      name: gato_jump-up (esquerda)_3
       rect:
         serializedVersion: 2
         x: 96
@@ -187,8 +187,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43ed04e919926944aa7eecaa5633bad2
-      internalID: 180607290
+      spriteID: 1250f223a64e84c45ba78f61ad1136b6
+      internalID: -537227252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gato_jump-up (esquerda)_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12c4f2b51773a494b9a542656570f6c5
+      internalID: -1957665251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gato_jump-up (esquerda)_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40ea6970b7c67b944b7cd644d06b6923
+      internalID: -1001772986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gato_jump-up (esquerda)_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e10f2aa5633ec78468f6bd685a5946a4
+      internalID: -250031781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gato_jump-up (esquerda)_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfbbba5c7fa692742a0cdcc84fd899af
+      internalID: 766832973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gato_jump-up (esquerda)_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da291555fa06c02499e2bd76fe8d45db
+      internalID: -1093940828
       vertices: []
       indices: 
       edges: []
@@ -204,10 +309,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      gato_walk (direita)_0: 585251706
-      gato_walk (direita)_1: -159039833
-      gato_walk (direita)_2: -304358632
-      gato_walk (direita)_3: 180607290
+      gato_jump-up (esquerda)_0: 1839896791
+      gato_jump-up (esquerda)_1: 115435607
+      gato_jump-up (esquerda)_2: 992679207
+      gato_jump-up (esquerda)_3: -537227252
+      gato_jump-up (esquerda)_4: -1957665251
+      gato_jump-up (esquerda)_5: -1001772986
+      gato_jump-up (esquerda)_6: -250031781
+      gato_jump-up (esquerda)_7: 766832973
+      gato_jump-up (esquerda)_8: -1093940828
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

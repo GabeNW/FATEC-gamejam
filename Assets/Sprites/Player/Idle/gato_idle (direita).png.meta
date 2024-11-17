@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 55510bed23b661340a1629e3b515d601
+guid: 743bdcabd48b6f34483b2df031ec7c82
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gato_walk (direita)_0
+      name: gato_idle (direita)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 122a8718996ff304c85d54822f0f7a14
-      internalID: 585251706
+      spriteID: 93099b002493a4a40a072f312db209b6
+      internalID: 391447373
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_1
+      name: gato_idle (direita)_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fb81d20d2c8e0c4587093eb2b4edcb3
-      internalID: -159039833
+      spriteID: 8a9a8e59f18f5e44fbcee16e2d69e7f4
+      internalID: 1622667862
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_2
+      name: gato_idle (direita)_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1884feb46272b84ea3186d28c505d4a
-      internalID: -304358632
+      spriteID: dabb1b8fdf5d3004d81ef855486db429
+      internalID: 2060207249
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gato_walk (direita)_3
+      name: gato_idle (direita)_3
       rect:
         serializedVersion: 2
         x: 96
@@ -187,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43ed04e919926944aa7eecaa5633bad2
-      internalID: 180607290
+      spriteID: 1c5b860cff334184aaaa697b568dbd10
+      internalID: -768857787
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      gato_walk (direita)_0: 585251706
-      gato_walk (direita)_1: -159039833
-      gato_walk (direita)_2: -304358632
-      gato_walk (direita)_3: 180607290
+      gato_idle (direita)_0: 391447373
+      gato_idle (direita)_1: 1622667862
+      gato_idle (direita)_2: 2060207249
+      gato_idle (direita)_3: -768857787
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
