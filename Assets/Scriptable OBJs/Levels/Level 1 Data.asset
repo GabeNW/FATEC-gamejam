@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3e77dda72f03e47bdcea4064e41348, type: 3}
   m_Name: Level 1 Data
   m_EditorClassIdentifier: 
-  scene: {fileID: 102900000, guid: 71e128d46c020ba408e8a7293a9bfad7, type: 3}
   levelName: Level1
   dimensionsAvailable: 2
   startingDimension: 1
   scrap: 2
   canDash: 0
-  completed: 1
+  completed: 0

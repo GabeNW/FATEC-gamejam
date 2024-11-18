@@ -5,7 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - scenesData: {fileID: 11400000, guid: 9144a4f6f47ab8f48a59855aa3b808ee, type: 2}
-  executionOrder: 0
+  executionOrder: -1100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

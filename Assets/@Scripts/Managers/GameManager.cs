@@ -5,110 +5,103 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    //Todas as cenas
-    [SerializeField] private ScenesData scenesData;
-    [HideInInspector] public LevelData currentLevel;
-    private int scrapCollected;
+	//Todas as cenas
+	[HideInInspector] public LevelData currentLevel;
+	public ScenesData scenesData;
+	public LevelManagerData levelManagerData;
 
-    //Override do mÈtodo Awake do singleton
-    protected override void Awake()
-    {
-        base.Awake();
-        Scene activeScene = SceneManager.GetActiveScene();
-        if (activeScene.name == scenesData.loadingScene)
-            LoadScene(scenesData.menuScene);
-    }
+	
+	private int scrapCollected;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	//Override do m√©todo Awake do singleton
+	protected override void Awake()
+	{
+		base.Awake();
+		SaveSystem.Load(levelManagerData);
+		Scene activeScene = SceneManager.GetActiveScene();
+		if (activeScene.name == scenesData.loadingScene)
+			LoadScene(scenesData.menuScene);
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //FunÁ„o para retornar o nome da cena atual
-    public string CurrentScene()
-    {
-        Scene activeScene = SceneManager.GetActiveScene();
-        if (activeScene.name == scenesData.firstLevelScene)
-        {
+	//Fun√ß√£o para retornar o nome da cena atual
+	public string CurrentScene()
+	{
+		Scene activeScene = SceneManager.GetActiveScene();
+		if (activeScene.name == scenesData.firstLevelScene)
+		{
 #if UNITY_EDITOR
-            Debug.Log("First Level Scene Loaded");
+			Debug.Log("First Level Scene Loaded");
 #endif
 
-        }
-        return activeScene.name;
-    }
+		}
+		return activeScene.name;
+	}
 
-    private void LevelClear()
-    {
+	private void LevelClear()
+	{
 #if UNITY_EDITOR
-        Debug.Log("Level Cleared");
+		Debug.Log("Level Cleared");
 #endif
-        currentLevel.completed = true;
-        LoadScene("Menu");
-    }
+		currentLevel.completed = true;
+		SaveSystem.Save(levelManagerData);
+		LoadScene("Menu");
+	}
 
-    public bool AddCollected()
-    {
-        if (scrapCollected < currentLevel.scrap)
-        {
-            scrapCollected++;
-            if(scrapCollected == currentLevel.scrap)
-                LevelClear();
-            return true;
-        }
-        else
-            return false;
-    }
+	public bool AddCollected()
+	{
+		if (scrapCollected < currentLevel.scrap)
+		{
+			scrapCollected++;
+			if(scrapCollected == currentLevel.scrap)
+				LevelClear();
+			return true;
+		}
+		else
+			return false;
+	}
 
-    //FunÁ„o para carregar cenas
-    public void LoadScene(string sceneName)
-    {
-        SceneManager.LoadSceneAsync(sceneName);
-    }
+	//Fun√ß√£o para carregar cenas
+	public void LoadScene(string sceneName)
+	{
+		SceneManager.LoadSceneAsync(sceneName);
+	}
 
-    //FunÁ„o para carregar o primeiro nÌvel
-    public void StartGame()
-    {
-        SceneManager.LoadSceneAsync(scenesData.firstLevelScene);
-    }
+	//Fun√ß√£o para carregar o primeiro n√≠vel
+	public void StartGame()
+	{
+		SceneManager.LoadSceneAsync(scenesData.firstLevelScene);
+	}
 
-    //FunÁ„o para encerrar o jogo
-    public void EndGame()
-    {
+	//Fun√ß√£o para encerrar o jogo
+	public void EndGame()
+	{
 #if UNITY_EDITOR
-        Debug.Log("Input de fim da aplicaÁ„o recebido");
+		Debug.Log("Input de fim da aplica√ß√£o recebido");
 #else
-        Application.Quit();
+		Application.Quit();
 #endif
-    }
+	}
 
-    //FunÁ„o para buscar GameObjects (atÈ os desativados)
-    private GameObject FindGameObject(string name)
-    {
-        List<GameObject> GetAllObjectsOnlyInScene()
-        {
-            List<GameObject> objectsInScene = new List<GameObject>();
-            foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-            {
+	//Fun√ß√£o para buscar GameObjects (at√© os desativados)
+	public GameObject FindGameObject(string name)
+	{
+		List<GameObject> GetAllObjectsOnlyInScene()
+		{
+			List<GameObject> objectsInScene = new List<GameObject>();
+			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+			{
 #if UNITY_EDITOR
-                if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
+				if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
 #else
-                if (!(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))   
+				if (!(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))   
 #endif
-                    objectsInScene.Add(go);
-            }
-            return objectsInScene;
-        }
+					objectsInScene.Add(go);
+			}
+			return objectsInScene;
+		}
 
-        List<GameObject> objectsInScene = GetAllObjectsOnlyInScene();
-        GameObject obj = objectsInScene.Find(obj => obj.name == name);
-        return obj;
-    }
+		List<GameObject> objectsInScene = GetAllObjectsOnlyInScene();
+		GameObject obj = objectsInScene.Find(obj => obj.name == name);
+		return obj;
+	}
 }
