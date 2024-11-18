@@ -61,6 +61,10 @@ public class PlayerMovement : MonoBehaviour
     //[Header("Animação")]
     private bool isFacingRight = true;
     
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         CoyoteTime();
@@ -75,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("yVelocity", rb.velocity.y);
+        animator.SetBool("IsJumping", !isGrounded());
         Gravity();
         EdgeDetection();
     }
@@ -149,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canDash = false;
         isDashing = true;
+        animator.SetBool("IsDashing", true);
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
         rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0);
@@ -157,6 +164,7 @@ public class PlayerMovement : MonoBehaviour
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
+        animator.SetBool("IsDashing", false);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
