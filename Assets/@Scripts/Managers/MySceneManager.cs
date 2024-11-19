@@ -7,13 +7,19 @@ public class MySceneManager : MonoBehaviour
 
 	private void Awake()
 	{
-		//Verificar a cena atual
-		currentScene = GameManager.Instance.CurrentScene();
-		if (currentScene == GameManager.Instance.scenesData.menuScene)
+		//Deletar depois
+#if UNITY_EDITOR
+		if(GameManager.Instance.canSave)
 		{
-			GameObject title = GameManager.Instance.FindGameObject("Tittle");
-			title.GetComponent<Text>().text = GameManager.Instance.levelManagerData.GetLevelData(GameManager.Instance.scenesData.firstLevelScene).completed.ToString();
+			currentScene = GameManager.Instance.CurrentScene();
+			if (currentScene == GameManager.Instance.scenesData.menuScene)
+			{
+				GameObject title = GameManager.Instance.FindGameObject("Tittle");
+				title.GetComponent<Text>().text = GameManager.Instance.levelManagerData.GetLevelData(GameManager.Instance.scenesData.firstLevelScene).completed.ToString();
+			}
 		}
+#endif
+		
 	}
 
 	//Função para carregar uma cena

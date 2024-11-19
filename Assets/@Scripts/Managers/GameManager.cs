@@ -5,19 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-	//Todas as cenas
-	[HideInInspector] public LevelData currentLevel;
-	public ScenesData scenesData;
-	public LevelManagerData levelManagerData;
-
+	[Header("Input")]
+	[SerializeField] private InputReader inputReader;
 	
-	private int scrapCollected;
+	[Header("Important Data")]
+	//Todas as cenas
+	public ScenesData scenesData;
+	//Informações dos levels
+	public LevelManagerData levelManagerData;
+	
+	//Informações do level atual
+	[HideInInspector] public LevelData currentLevel;
+	
+	public bool canSave = false;
+
+	private int scrapCollected = 0;
 
 	//Override do método Awake do singleton
 	protected override void Awake()
 	{
 		base.Awake();
-		SaveSystem.Load(levelManagerData);
+#if UNITY_EDITOR
+		if(canSave)
+#endif
+			SaveSystem.Load(levelManagerData);
 		Scene activeScene = SceneManager.GetActiveScene();
 		if (activeScene.name == scenesData.loadingScene)
 			LoadScene(scenesData.menuScene);
@@ -30,9 +41,8 @@ public class GameManager : Singleton<GameManager>
 		if (activeScene.name == scenesData.firstLevelScene)
 		{
 #if UNITY_EDITOR
-			Debug.Log("First Level Scene Loaded");
+			//Debug.Log("First Level Scene Loaded");
 #endif
-
 		}
 		return activeScene.name;
 	}
@@ -43,21 +53,56 @@ public class GameManager : Singleton<GameManager>
 		Debug.Log("Level Cleared");
 #endif
 		currentLevel.completed = true;
-		SaveSystem.Save(levelManagerData);
-		LoadScene("Menu");
+#if UNITY_EDITOR
+		if(canSave)
+#endif
+			SaveSystem.Save(levelManagerData);
+		OnBackToMenu();
 	}
 
 	public bool AddCollected()
 	{
+		Debug.Log("Scrap before: " + scrapCollected);
 		if (scrapCollected < currentLevel.scrap)
 		{
 			scrapCollected++;
+			Debug.Log("Scrap after: " + scrapCollected);
+			Debug.Log("Level Scrap: " + currentLevel.scrap);
 			if(scrapCollected == currentLevel.scrap)
 				LevelClear();
 			return true;
 		}
 		else
 			return false;
+	}
+	
+	public void Restart() 
+	{
+		scrapCollected = 0;
+		LoadScene(CurrentScene());
+	}
+	
+	public void NextLevel()
+	{
+		scrapCollected = 0;
+		//LoadScene("");
+	}
+	
+	private void OnEnable()
+	{
+		inputReader.BackToMenuEvent += OnBackToMenu;
+	}
+	
+	private void OnDisable()
+	{
+		inputReader.BackToMenuEvent -= OnBackToMenu;
+	}
+
+	public void OnBackToMenu()
+	{
+		scrapCollected = 0;
+		if (CurrentScene() != scenesData.menuScene)
+			LoadScene(scenesData.menuScene);
 	}
 
 	//Função para carregar cenas

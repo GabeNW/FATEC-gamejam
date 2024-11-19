@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf3e77dda72f03e47bdcea4064e41348, type: 3}
-  m_Name: Level 1 Data
+  m_Script: {fileID: 11500000, guid: 983de9a5fcfc01349bd7639c1ce0c5ed, type: 3}
+  m_Name: Input Reader
   m_EditorClassIdentifier: 
-  levelName: Level1
-  dimensionsAvailable: 2
-  startingDimension: 1
-  scrap: 1
-  canDash: 0
-  completed: 0
+  playerInputs: {fileID: -944628639613478452, guid: 439634267d944a54fb9bc1d3c84004d6, type: 3}
+  controlInputs: {fileID: -944628639613478452, guid: d8b4918eb5df72c488addd9667f61bde, type: 3}

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Level Manager Data", menuName = "ScritableOBJ/Data Containers/Level Manager Data")]
+[CreateAssetMenu(fileName = "Level Manager Data", menuName = "ScriptableOBJ/Data Containers/Level Manager Data")]
 public class LevelManagerData : ScriptableObject
 {
     //Lista dos ScriptableObjects
