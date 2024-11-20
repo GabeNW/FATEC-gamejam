@@ -18,7 +18,9 @@ public class Scrap : MonoBehaviour
 		if (collision.CompareTag("Player"))
 		{
 			collected = true;
+#if UNITY_EDITOR
 			Debug.Log("Scrap collected!!!");
+#endif
 			Destroy(gameObject);
 			GameManager.Instance.AddCollected();
 		}

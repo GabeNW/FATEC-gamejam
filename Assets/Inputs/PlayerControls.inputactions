@@ -34,21 +34,21 @@
                 },
                 {
                     "name": "SwitchDimensionUp",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "211dd3da-a38a-4744-b5a0-2e15919a6480",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "SwitchDimensionDown",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "7df7154f-1938-439b-820f-8b9f0807f16b",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

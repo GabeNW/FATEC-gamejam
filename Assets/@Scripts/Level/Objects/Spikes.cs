@@ -6,7 +6,9 @@ public class Spikes : MonoBehaviour
 	{
 		if (collision.CompareTag("Player"))
 		{
-			Debug.Log("Inescapable death!!!");
+			//Debug.Log("Inescapable death!!!");
+			collision.GetComponent<PlayerMovement>().canMove = false;
+			GameManager.Instance.Restart();
 		}
 	}
 }

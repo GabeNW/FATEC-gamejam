@@ -1,55 +1,53 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-	[Header("Input")]
-	[SerializeField] private InputReader inputReader;
-	
-	[Header("Layer")]
-	[SerializeField] private LayerMask PlayerLayer;
-
+#region Variables
 	[Header("Dependencies")]
+	[SerializeField] private LayerMask PlayerLayer;
 	[SerializeField] private Rigidbody2D rb;
+	[SerializeField] private SpriteRenderer sprRenderer;
+	private InputReader inputReader;
+	private PlayerEvents playerEvents;
+	
 	[SerializeField]private CapsuleCollider2D col;
 	[SerializeField]private Vector2 frameVelocity;
 	
 	[Header("Movement")]
 	[SerializeField] private float speed = 5;
+	public bool canMove = true;
 	private float horizontal;
 
 	[Header("Jump")]
 	[SerializeField] private float jumpPower = 13;
-	[SerializeField] private float slowMultiplier = 0.5f;
-
+	[SerializeField] private float slowMultiplier = 0.1f;
+	private bool isJumping = false;
 	private bool canJump = false;
-
+	private bool isGrounded;
+	
 	[Header("Gravity")]
-	[SerializeField] private float baseGravity = 2;
+	[SerializeField] private float baseGravity = 1;
 	[SerializeField] private float maxFallSpd = 18;
 	[SerializeField] private float fallSpdMultiplier = 2;
-
-	[Header("GroundCheck")]
-	[SerializeField] private Transform groundCheck;
-	[SerializeField] private LayerMask groundLayer;
-	[SerializeField] private Vector2 groundCheckSize = new Vector2(1, 0.5f);
-	[SerializeField] private Color32 gizmosColor;
-	[SerializeField] private UnityAction onGround;
-
+	
 	[Header("Gamefeel")]
 	[Header("Coyote Time")]
 	[SerializeField] private float coyoteTime = 0.2f;
 	private float coyoteTimeCounter;
 
 	[Header("Jump Buffer")]
-	[SerializeField] private float jumpBufferTime = 0.2f;
-	[SerializeField] private float jumpBufferCounter = 0;
+	[SerializeField] private float jumpBufferTime = 1;
 	[SerializeField] private float groundDistance = 5;
-	private bool jumpBuffer = false;
-	private InputAction.CallbackContext lastInput = new InputAction.CallbackContext();
+	private float jumpBufferTimeCounter = 0;
+	private float pressTime = 0;
+	private float canceledJumpTimer = 0;
+	private bool canJumpBuffer = false;
+	private bool jumpBufferActive = false;
+	private bool canJumpCounter = false;
+	private bool canNerfJump = false;
+	private bool jumpCanceled = false;
+	private bool executeDelayJump = false;
 
 	[Header("Dash")]
 	[SerializeField] private float dashingPower = 24;
@@ -59,104 +57,207 @@ public class PlayerMovement : MonoBehaviour
 	private bool canDash = true;
 	private bool isDashing;
 
-	[Header("LevelManager")]
-	[SerializeField] private LevelManager levelManager;
-
 	//[Header("Animação")]
 	private bool isFacingRight = true;
-	
+#endregion
+
+#region Inputs
 	//Input Reader
+	public void InitializeInput(InputReader inputReader)
+	{
+		this.inputReader = inputReader;
+	}
+	
+	public void InitializeEvents(PlayerEvents playerEvents)
+	{
+		this.playerEvents = playerEvents;
+	}
+	
 	private void OnEnable()
 	{
+		//Eventos de Input
 		inputReader.MoveEvent += OnMove;
+		
 		inputReader.JumpEvent += OnJump;
 		inputReader.JumpCanceledEvent += OnJumpCanceled;
+		
 		inputReader.DashEvent += OnDash;
-	}
-	private void OnDisable()
-	{
-		inputReader.MoveEvent -= OnMove;
-		inputReader.JumpEvent -= OnJump;
-		inputReader.JumpCanceledEvent -= OnJumpCanceled;
-		inputReader.DashEvent -= OnDash;
+		
+		//Eventos de GroundCheck (PlayerEvents)
+		playerEvents.onGround += HandleGrounded;
+		playerEvents.onAir += HandleAirborne;
 	}
 
+	private void OnDisable()
+	{
+		//Eventos de Input
+		inputReader.MoveEvent -= OnMove;
+		
+		inputReader.JumpEvent -= OnJump;
+		inputReader.JumpCanceledEvent -= OnJumpCanceled;
+		
+		inputReader.DashEvent -= OnDash;
+		
+		//Eventos de GroundCheck (PlayerEvents)
+		playerEvents.onGround -= HandleGrounded;
+		playerEvents.onAir -= HandleAirborne;
+	}
+	
 	//Inputs
+	//Move
 	public void OnMove(Vector2 move)
 	{
 		Flip();
 		horizontal = move.x;
 	}
+
+	//Dash
+	public void OnDash()
+	{
+		if (canMove) 
+		{	
+			if (isDashing || !GameManager.Instance.currentLevel.canDash)
+				return;
+			if (canDash)
+				StartCoroutine(DashLogic());
+		}
+	}
 	
 	//Jump
 	private void OnJump()
 	{
-		if (canJump)
+		if (canMove) 
+		{	
+			//Jump
+			if (canJump)
 				PerformJump(false);
-		else
-			jumpBuffer = true;
-		coyoteTimeCounter = 0;
+			
+			//JumpBuffer
+			if (canJumpBuffer && !isGrounded)
+				jumpBufferActive = true;
+			canJumpCounter = true;
+			pressTime = 0;
+			
+			//CoyoteTime
+			coyoteTimeCounter = 0;
+		}
 	}
 	private void OnJumpCanceled()
 	{
-		//Debug.Log("Canceled");
-		if (rb.velocity.y > 0)
+#if UNITY_EDITOR
+		//Debug.Log("Canceled Input");
+#endif
+		if (rb.velocity.y > 0 && isJumping)
 			PerformJump(true);
+		if (jumpBufferActive && !isJumping) 
+			canNerfJump = true;
 		coyoteTimeCounter = 0;
 	}
-	
-	//Dash
-	public void OnDash()
+#endregion
+
+#region Events
+	//Events
+	private void HandleGrounded()
 	{
-		if (isDashing || !levelManager.currentLevel.canDash)
-			return;
-		if (canDash)
-			StartCoroutine(DashLogic());
+		isGrounded = true;
+		
+		//CoyoteTime
+		coyoteTimeCounter = coyoteTime;
+		canJump = true;
+		
+		//JumpBuffer
+		jumpBufferTimeCounter = jumpBufferTime;
+		if (canNerfJump) 
+			jumpCanceled = true;
+		if (executeDelayJump)
+		{
+			PerformJump(false);
+			executeDelayJump = false;
+			jumpBufferActive = false;
+		}
+		
 	}
-	
+	private void HandleAirborne()
+	{
+		isGrounded = false;
+	}
+#endregion
+
+#region Unity Functions
+	//Unity Functions
 	private void Update()
 	{
-		CoyoteTime();
-		if (CheckGroundDistance() < groundDistance)
+		if (canMove) 
 		{
-			JumpBuffer();
+			//CoyoteTime
+			CoyoteTime();
+			
+			//JumpBuffer
+			if (CheckGroundDistance() <= groundDistance)
+				canJumpBuffer = true;
+			else
+				canJumpBuffer = false;
+			if(canJumpBuffer)
+				JumpBuffer();
+			//JumpCounter
+			if (canJumpCounter && !canNerfJump)
+				pressTime += Time.deltaTime;
+			if (jumpCanceled)
+			{
+				canceledJumpTimer += Time.deltaTime;
+				if (canceledJumpTimer >= pressTime)
+				{
+					canNerfJump = false;
+					jumpCanceled = false;
+					canceledJumpTimer = 0;
+					PerformJump(true);
+				}
+			}
 		}
 	}
 	private void FixedUpdate()
 	{
-		if (isDashing)
+		if (canMove)
+		{
+			//Movimento
+			rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+			//Gravidade
+			Gravity();
+			//Detecção de bordas
+			EdgeDetection();
+			//Dash
+			if (isDashing)
 			return;
-		rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-		Gravity();
-		EdgeDetection();
+		}
+		else 
+		{
+			rb.gravityScale = 0;
+			rb.velocity = new Vector2(0, 0);
+		}
 	}
-	
+#endregion
+
+#region Funções
 	//Funções
 	//Pulo
-	private void PerformJump(bool slowActive)
+	private void PerformJump(bool modifier)
 	{
-		//float jumpStrength = Mathf.Lerp(jumpPower * 0.5f, jumpPower, jumpPressTime / maxJumpTime);
-
-		if (slowActive)
+		//Pulo com modificador
+		if (modifier)
+		{
+			//Debug.Log("Jump canceled");
+			isJumping = false;
 			rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * slowMultiplier);
+		}
 		else
+		{
+			//rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * buffMultiplier);
+			//Debug.Log("Jump");
 			rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-	}
-
-	//Verifica se o player está no chão
-	private bool isGrounded()
-	{
-		if (Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0.2f, groundLayer))
-		{
-
-			return true;
-		}
-		else
-		{
-
-			return false;
+			isJumping = true;
 		}
 	}
+
 	//Lógica do Dash
 	IEnumerator DashLogic()
 	{
@@ -173,18 +274,55 @@ public class PlayerMovement : MonoBehaviour
 		yield return new WaitForSeconds(dashingCooldown);
 		canDash = true;
 	}
+	
 	//Modificador de gravidade
 	private void Gravity()
 	{
-		if (rb.velocity.y < 0)
-		{
-			rb.gravityScale = baseGravity * fallSpdMultiplier;
-			rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpd, Mathf.Infinity));
+		if(canMove) 
+		{	
+			if (rb.velocity.y < 0)
+			{
+				rb.gravityScale = baseGravity * fallSpdMultiplier;
+				rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpd, Mathf.Infinity));
+				
+				isJumping = false;
+				canJumpCounter = false;
+			}
+			else
+				rb.gravityScale = baseGravity;
 		}
-		else
-			rb.gravityScale = baseGravity;
 	}
+	//Verifica a distancia do chão
+	private float CheckGroundDistance()
+	{
+		Vector2 pos1 = transform.position, pos2 = transform.position;
+		
+		// Lança um Raycast 2D para baixo a partir da posição do personagem
+		pos1.x += sprRenderer.bounds.size.x/2;
+		RaycastHit2D hit = Physics2D.Raycast(pos1, Vector2.down, jumpPower, playerEvents.groundLayer);
+#if UNITY_EDITOR
+		//if (hit.collider != null)
+			//Debug.Log("Distância 1 até o chão: " + hit.distance);
+#endif
 
+		// Lança outro Raycast 2D para baixo a partir da posição do personagem
+		pos2.x -= sprRenderer.bounds.size.x/2;
+		RaycastHit2D hit2 = Physics2D.Raycast(pos2, Vector2.down, jumpPower, playerEvents.groundLayer);
+#if UNITY_EDITOR
+		//if (hit.collider != null)
+			//Debug.Log("Distância 2 até o chão: " + hit2.distance);
+#endif
+
+		float finalDistance = hit.distance > hit2.distance ? hit2.distance : hit.distance;
+#if UNITY_EDITOR
+		//Debug.Log("Distância até o chão: " + finalDistance);
+		//Desenhar os Raycasts para depuração
+		Debug.DrawRay(pos1, Vector2.down * hit.distance, Color.red);
+		Debug.DrawRay(pos2, Vector2.down * hit2.distance, Color.red);
+#endif
+		return finalDistance;
+	}
+	
 	//Script para virar personagem
 	private void Flip()
 	{
@@ -196,26 +334,15 @@ public class PlayerMovement : MonoBehaviour
 			transform.localScale = localScale;
 		}
 	}
+#endregion
 
-	//Desenha no Gizmos
-	private void OnDrawGizmos()
-	{
-		//Desenha a caixa de colisão do chão
-		Gizmos.color = gizmosColor;
-		Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
-	}
-
+#region GameFeel
 	//Gamefeel
 
 	//Chance de pular mesmo após sair do chão
 	private void CoyoteTime()
 	{
-		if (isGrounded())
-		{
-			coyoteTimeCounter = coyoteTime;
-			canJump = true;
-		}
-		else
+		if(!isGrounded)
 		{
 			if (coyoteTimeCounter > 0)
 			{
@@ -229,56 +356,25 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-	//Pular antecipadamente
+	//Apertar para pular antecipadamente
 	public void JumpBuffer()
 	{
-		if (isGrounded())
+		if (!isGrounded)
 		{
-			jumpBufferCounter = jumpBufferTime;
-		}
-		else
-		{
-			if (jumpBufferCounter > 0)
+			if (jumpBufferTimeCounter > 0)
 			{
-				jumpBufferCounter -= Time.deltaTime;
-				if (jumpBuffer)
+				jumpBufferTimeCounter -= Time.deltaTime;
+				if (jumpBufferActive)
 				{
-					jumpBufferCounter = jumpBufferTime;
-					jumpBuffer = false;
-					StartCoroutine(WaitForGround());
+					executeDelayJump = true;
 				}
 			}
 			else
 			{
-				jumpBufferCounter = 0;
+				jumpBufferTimeCounter = 0;
 			}
 		}
 	}
-
-	//Core do JumpBuffer
-	IEnumerator WaitForGround()
-	{
-		yield return new WaitUntil(() => isGrounded() == true);
-		PerformJump(false);
-	}
-
-	//Verifica a distancia do chão
-	private float CheckGroundDistance()
-	{
-		// Lança um Raycast 2D para baixo a partir da posição do personagem
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, jumpPower, groundLayer);
-
-		if (hit.collider != null)
-		{
-			float distanceToGround = hit.distance;
-			//Debug.Log("Distância até o chão: " + distanceToGround);
-		}
-
-		// Desenhar o Raycast para depuração (opcional)
-		Debug.DrawRay(transform.position, Vector2.down * hit.distance, Color.red);
-		return hit.distance;
-	}
-
 	//Detecta se o player está em uma borda
 	private void EdgeDetection()
 	{
@@ -287,5 +383,5 @@ public class PlayerMovement : MonoBehaviour
 		// Hit a Ceiling
 		if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);
 	}
-	
+#endregion
 }

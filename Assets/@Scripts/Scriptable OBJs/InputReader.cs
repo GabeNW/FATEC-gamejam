@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -13,8 +12,8 @@ public class InputReader : ScriptableObject
 	public event UnityAction JumpEvent;
 	public event UnityAction JumpCanceledEvent;
 	public event UnityAction DashEvent;
-	public event UnityAction<Vector2> SwitchUpEvent;
-	public event UnityAction<Vector2> SwitchDownEvent;
+	public event UnityAction SwitchUpEvent;
+	public event UnityAction SwitchDownEvent;
 	
 	public event UnityAction BackToMenuEvent;
 	
@@ -118,12 +117,14 @@ public class InputReader : ScriptableObject
 
 	private void OnSwitchUp(InputAction.CallbackContext context)
 	{
-		SwitchUpEvent?.Invoke(context.ReadValue<Vector2>());
+		if (SwitchUpEvent != null && context.started)
+			SwitchUpEvent.Invoke();
 	}
 	
 	private void OnSwitchDown(InputAction.CallbackContext context)
 	{
-		SwitchDownEvent?.Invoke(context.ReadValue<Vector2>());
+		if (SwitchDownEvent != null && context.started)
+			SwitchDownEvent.Invoke();
 	}
 
 	private void OnDash(InputAction.CallbackContext context)

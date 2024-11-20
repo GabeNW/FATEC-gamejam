@@ -5,6 +5,8 @@ public class MySceneManager : MonoBehaviour
 {
 	[HideInInspector] public string currentScene;
 
+	[SerializeField] private InputReader inputReader;
+	
 	private void Awake()
 	{
 		//Deletar depois
