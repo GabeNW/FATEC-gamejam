@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private LayerMask PlayerLayer;
 	[SerializeField] private Rigidbody2D rb;
 	[SerializeField] private SpriteRenderer sprRenderer;
+	[SerializeField] Animator animator;
 	private InputReader inputReader;
 	private PlayerEvents playerEvents;
 	
@@ -185,6 +186,11 @@ public class PlayerMovement : MonoBehaviour
 
 #region Unity Functions
 	//Unity Functions
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+	}
+	
 	private void Update()
 	{
 		if (canMove) 
@@ -221,6 +227,10 @@ public class PlayerMovement : MonoBehaviour
 		{
 			//Movimento
 			rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+			//Animação
+			animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+			animator.SetFloat("yVelocity", rb.velocity.y);
+			animator.SetBool("IsJumping", !isGrounded);
 			//Gravidade
 			Gravity();
 			//Detecção de bordas
@@ -263,6 +273,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		canDash = false;
 		isDashing = true;
+		animator.SetBool("IsDashing", true);
 		float originalGravity = rb.gravityScale;
 		rb.gravityScale = 0;
 		rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0);
@@ -271,6 +282,7 @@ public class PlayerMovement : MonoBehaviour
 		tr.emitting = false;
 		rb.gravityScale = originalGravity;
 		isDashing = false;
+		animator.SetBool("IsDashing", false);
 		yield return new WaitForSeconds(dashingCooldown);
 		canDash = true;
 	}

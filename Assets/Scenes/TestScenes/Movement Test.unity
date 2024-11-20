@@ -339,10 +339,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 38891270}
-  - {fileID: 331373433}
   - {fileID: 1253300676}
   - {fileID: 614691590}
-  - {fileID: 1832541107}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &331373432
