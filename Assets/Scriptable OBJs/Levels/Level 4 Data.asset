@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf3e77dda72f03e47bdcea4064e41348, type: 3}
-  m_Name: Level 2 Data
+  m_Name: Level 4 Data
   m_EditorClassIdentifier: 
-  levelName: Level2
-  dimensionsAvailable: 2
+  levelName: Level4
+  dimensionsAvailable: 3
   startingDimension: 1
   scrap: 1
   canDash: 0

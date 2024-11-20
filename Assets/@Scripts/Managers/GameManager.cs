@@ -17,19 +17,18 @@ public class GameManager : Singleton<GameManager>
 	//Informações do level atual
 	[HideInInspector] public LevelData currentLevel;
 	
+	private const int levels = 4;
 	public bool canSave = false;
-
 	private int scrapCollected = 0;
+	public int levelsCleared = 0;
 	private int currentLevelIndex = 0;
 
 	//Override do método Awake do singleton
 	protected override void Awake()
 	{
 		base.Awake();
-#if UNITY_EDITOR
-		if(canSave)
-#endif
-			SaveSystem.Load(levelManagerData);
+		SaveSystem.Load(levelManagerData);
+		currentLevelIndex = levelsCleared;
 		Scene activeScene = SceneManager.GetActiveScene();
 		if (activeScene.name == scenesData.loadingScene)
 			LoadScene(scenesData.menuScene);
@@ -78,14 +77,12 @@ public class GameManager : Singleton<GameManager>
 	public string CurrentScene()
 	{
 		Scene activeScene = SceneManager.GetActiveScene();
-		if (activeScene.name == scenesData.firstLevelScene)
+		if (activeScene.name.Contains("Level"))
 		{
-#if UNITY_EDITOR
-			//Debug.Log("First Level Scene Loaded");
-#endif
+			currentLevel = levelManagerData.GetLevelData(activeScene.name);
+			char temp = activeScene.name[activeScene.name.Length-1];
+			currentLevelIndex = int.Parse(temp.ToString());
 		}
-		char temp = activeScene.name[activeScene.name.Length - 1];
-		currentLevelIndex = int.Parse(temp.ToString());
 		return activeScene.name;
 	}
 	
@@ -99,10 +96,16 @@ public class GameManager : Singleton<GameManager>
 	public void NextLevel()
 	{
 		scrapCollected = 0;
+#if UNITY_EDITOR
+		//Debug.Log("Current Level Index: " + currentLevelIndex + "| Level Cleared: " + levelsCleared + "| Level List Count: " + levelManagerData.levelList.Count);
+#endif
 		if(currentLevelIndex == levelManagerData.levelList.Count)
 			LoadScene(scenesData.menuScene);
 		else
-			LoadScene(scenesData.menuScene);
+			LoadScene("Level" + ++currentLevelIndex);
+#if UNITY_EDITOR
+		//Debug.Log("Current Level Index: " + currentLevelIndex + "| Level Cleared: " + levelsCleared + "| Level List Count: " + levelManagerData.levelList.Count);
+#endif
 	}
 	
 	public bool AddCollected()
@@ -132,16 +135,29 @@ public class GameManager : Singleton<GameManager>
 		{
 			SceneManager.LoadSceneAsync(sceneName);
 		}
+#if UNITY_EDITOR
 		else
-		{
 			Debug.LogError($"A cena '{sceneName}' não existe ou não foi adicionada à build.");
-		}
+#endif
 	}
 
 	//Função para carregar o primeiro nível
 	public void StartGame()
 	{
-		SceneManager.LoadSceneAsync(scenesData.firstLevelScene);
+		if (levelsCleared == 0)
+			SceneManager.LoadSceneAsync(scenesData.firstLevelScene);
+		else if (levelsCleared >= levels) 
+		{
+			levelsCleared = levels;
+#if UNITY_EDITOR
+			Debug.Log("All levels cleared");
+#endif
+			currentLevelIndex = 0;
+			LoadScene("Level" + ++currentLevelIndex);
+		}
+		else
+			LoadScene("Level"+(currentLevelIndex+1));
+			
 	}
 
 	//Função para encerrar o jogo

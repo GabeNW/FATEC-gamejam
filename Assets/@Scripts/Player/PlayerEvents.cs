@@ -5,8 +5,8 @@ public class PlayerEvents : MonoBehaviour
 {
 	[Header("GroundCheck")]
 	[SerializeField] private Transform groundCheck;
-	[SerializeField] private Vector2 groundCheckSize = new Vector2(1, 0.5f);
-	[SerializeField] private Color32 gizmosColor;
+	[SerializeField] private Vector3 groundCheckSize = new Vector3(1, 0.5f, 1);
+	[SerializeField] private Color32 gizmosColor = Color.green;
 	public LayerMask groundLayer;
 	
 	//Events
@@ -38,8 +38,11 @@ public class PlayerEvents : MonoBehaviour
 	//Desenha no Gizmos
 	private void OnDrawGizmos()
 	{
-		//Desenha a caixa de colisão do chão
-		Gizmos.color = gizmosColor;
-		Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
+		if (groundCheck != null && groundCheckSize != Vector3.zero) 
+		{	
+			//Desenha a caixa de colisão do chão
+			Gizmos.color = gizmosColor;
+			Gizmos.DrawCube(groundCheck.position, groundCheckSize);
+		}
 	}
 }

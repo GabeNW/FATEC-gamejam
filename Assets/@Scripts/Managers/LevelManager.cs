@@ -13,17 +13,18 @@ public class LevelManager : MonoBehaviour
 	{
 		levelManagerData.Initialize();
 		CurrentSceneData();
+		SwitchWorld(currentWorld); 
 	}
 	private void CurrentSceneData()
 	{
 		currentLevel = levelManagerData.GetLevelData(GameManager.Instance.CurrentScene());
-		GameManager.Instance.currentLevel = currentLevel;
+		currentWorld = currentLevel.startingDimension - 1;
 	}
 	
 	//Função para alternar para a próxima dimensão (sentido 1)
 	public void SwitchWorldUp()
 	{
-		if (!(currentWorld + 1 >= GameManager.Instance.currentLevel.dimensionsAvailable))
+		if (!(currentWorld + 1 >= currentLevel.dimensionsAvailable))
 			currentWorld++;
 		else
 			currentWorld = 0;
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour
 		if (currentWorld > 0)
 			currentWorld--;
 		else
-			currentWorld = GameManager.Instance.currentLevel.dimensionsAvailable - 1;
+			currentWorld = currentLevel.dimensionsAvailable - 1;
 		SwitchWorld(currentWorld);
 	}
 

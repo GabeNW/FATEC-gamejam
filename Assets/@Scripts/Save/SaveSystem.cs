@@ -24,7 +24,7 @@ public class SaveSystem
 		File.WriteAllText(SaveFileName(), saveContent);
 	}
 	
-	public static void HandleSaveData(LevelManagerData levelManagerData)
+	private static void HandleSaveData(LevelManagerData levelManagerData)
 	{
 		saveData.completedLevels = new List<string>();
 
@@ -34,6 +34,7 @@ public class SaveSystem
 			if (levelData.completed)
 			{
 				saveData.completedLevels.Add(levelData.levelName);
+				GameManager.Instance.levelsCleared++;
 			}
 		}
 	}
@@ -43,15 +44,25 @@ public class SaveSystem
 		if (File.Exists(SaveFileName()))
 		{
 #if UNITY_EDITOR
-			Debug.Log("Arquivo encontrado: "+ PlayerPrefs.GetString("key_test", "Nenhum dado"));
+			Debug.Log("Arquivo encontrado!");
 #endif
 			string saveContent = File.ReadAllText(SaveFileName());
 			saveData = JsonUtility.FromJson<SaveData>(saveContent);
 			HandleLoadData(levelManagerData);
 		}
+		else 
+		{
+#if UNITY_EDITOR
+			Debug.Log("Arquivo não encontrado");
+#endif
+			foreach (var levelData in levelManagerData.levelList)
+			{
+				levelData.completed = false;
+			}
+		}
 	}
 
-	public static void HandleLoadData(LevelManagerData levelManagerData)
+	private static void HandleLoadData(LevelManagerData levelManagerData)
 	{
 		levelManagerData.Initialize(); // Certifica-se de que o dicionário está inicializado
 
@@ -61,6 +72,7 @@ public class SaveSystem
 			if (levelManagerData.GetLevelData(completedLevelName) is LevelData levelData)
 			{
 				levelData.completed = true;
+				GameManager.Instance.levelsCleared++;
 			}
 		}
 	}

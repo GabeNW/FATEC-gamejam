@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Jump")]
 	[SerializeField] private float jumpPower = 13;
 	[SerializeField] private float slowMultiplier = 0.1f;
+	[SerializeField] private float airControl = 1.3f;
 	private bool isJumping = false;
 	private bool canJump = false;
 	private bool isGrounded;
@@ -117,9 +118,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (canMove) 
 		{	
-			if (isDashing || !GameManager.Instance.currentLevel.canDash)
+			if (isDashing)
 				return;
-			if (canDash)
+			if (canDash && GameManager.Instance.currentLevel.canDash)
 				StartCoroutine(DashLogic());
 		}
 	}
@@ -161,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
 	private void HandleGrounded()
 	{
 		isGrounded = true;
-		
+		animator.SetBool("IsJumping", !isGrounded);
 		//CoyoteTime
 		coyoteTimeCounter = coyoteTime;
 		canJump = true;
@@ -181,16 +182,12 @@ public class PlayerMovement : MonoBehaviour
 	private void HandleAirborne()
 	{
 		isGrounded = false;
+		animator.SetBool("IsJumping", !isGrounded);
 	}
 #endregion
 
 #region Unity Functions
 	//Unity Functions
-	void Start()
-	{
-		animator = GetComponent<Animator>();
-	}
-	
 	private void Update()
 	{
 		if (canMove) 
@@ -225,19 +222,18 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (canMove)
 		{
-			//Movimento
-			rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-			//Animação
-			animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
-			animator.SetFloat("yVelocity", rb.velocity.y);
-			animator.SetBool("IsJumping", !isGrounded);
+			//Dash
+			if (isDashing)
+				return;
 			//Gravidade
 			Gravity();
 			//Detecção de bordas
 			EdgeDetection();
-			//Dash
-			if (isDashing)
-			return;
+			//Movimento
+			AirControl();
+			//Animação
+			animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+			animator.SetFloat("yVelocity", rb.velocity.y);
 		}
 		else 
 		{
@@ -261,26 +257,30 @@ public class PlayerMovement : MonoBehaviour
 		}
 		else
 		{
-			//rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * buffMultiplier);
 			//Debug.Log("Jump");
 			rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 			isJumping = true;
 		}
 	}
 
+	public void AirControl() 
+	{
+		if (isJumping)
+			rb.velocity = new Vector2(horizontal * speed * airControl, rb.velocity.y);
+		else
+			rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+	}
+	
 	//Lógica do Dash
 	IEnumerator DashLogic()
 	{
 		canDash = false;
 		isDashing = true;
 		animator.SetBool("IsDashing", true);
-		float originalGravity = rb.gravityScale;
-		rb.gravityScale = 0;
 		rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0);
 		tr.emitting = true;
 		yield return new WaitForSeconds(dashingTime);
 		tr.emitting = false;
-		rb.gravityScale = originalGravity;
 		isDashing = false;
 		animator.SetBool("IsDashing", false);
 		yield return new WaitForSeconds(dashingCooldown);
@@ -291,17 +291,26 @@ public class PlayerMovement : MonoBehaviour
 	private void Gravity()
 	{
 		if(canMove) 
-		{	
-			if (rb.velocity.y < 0)
+		{
+			if (!isDashing)
 			{
-				rb.gravityScale = baseGravity * fallSpdMultiplier;
-				rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpd, Mathf.Infinity));
-				
-				isJumping = false;
-				canJumpCounter = false;
+				if (rb.velocity.y < 0)
+				{
+					//Gravidade
+					rb.gravityScale = baseGravity * fallSpdMultiplier;
+					rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpd, Mathf.Infinity));
+					
+					//Pulo
+					isJumping = false;
+					canJumpCounter = false;
+				}
+				else
+					rb.gravityScale = baseGravity;
 			}
-			else
-				rb.gravityScale = baseGravity;
+			else 
+			{
+				rb.gravityScale = 0;
+			}
 		}
 	}
 	//Verifica a distancia do chão
@@ -316,7 +325,6 @@ public class PlayerMovement : MonoBehaviour
 		//if (hit.collider != null)
 			//Debug.Log("Distância 1 até o chão: " + hit.distance);
 #endif
-
 		// Lança outro Raycast 2D para baixo a partir da posição do personagem
 		pos2.x -= sprRenderer.bounds.size.x/2;
 		RaycastHit2D hit2 = Physics2D.Raycast(pos2, Vector2.down, jumpPower, playerEvents.groundLayer);

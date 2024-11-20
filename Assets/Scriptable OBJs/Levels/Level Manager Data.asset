@@ -15,4 +15,5 @@ MonoBehaviour:
   levelList:
   - {fileID: 11400000, guid: 210b724f6048b7740b7ddf73bd2082b1, type: 2}
   - {fileID: 11400000, guid: 1a7e7347843621d48ab956a28e0c84dd, type: 2}
-  scenesData: {fileID: 11400000, guid: 9144a4f6f47ab8f48a59855aa3b808ee, type: 2}
+  - {fileID: 11400000, guid: 35fd8b42be1a3b54bb3715c4df87cdeb, type: 2}
+  - {fileID: 11400000, guid: da15b95f04e94574696eac07c32ecccc, type: 2}
