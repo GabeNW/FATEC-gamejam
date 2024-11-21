@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject
 {
 	[SerializeField] private InputActionAsset playerInputs;
-	[SerializeField] private InputActionAsset controlInputs;
 	
 	public event UnityAction<Vector2> MoveEvent;
 	public event UnityAction JumpEvent;
@@ -33,7 +32,7 @@ public class InputReader : ScriptableObject
 		switchUpAction = playerInputs.FindAction("SwitchDimensionUp");
 		switchDownAction = playerInputs.FindAction("SwitchDimensionDown");
 		
-		backToMenuAction = controlInputs.FindAction("BackToMenu");
+		backToMenuAction = playerInputs.FindAction("BackToMenu");
 		
 		moveAction.started += OnMove;
 		moveAction.performed += OnMove;
@@ -89,7 +88,6 @@ public class InputReader : ScriptableObject
 		switchDownAction.started -= OnSwitchDown;
 		switchDownAction.performed -= OnSwitchDown;
 		switchDownAction.canceled -= OnSwitchDown;
-		
 		
 		backToMenuAction.started -= OnBackToMenu;
 		

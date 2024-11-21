@@ -12,14 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e0c02728d80ee4486307277eae6f0b, type: 3}
   m_Name: Scene Data
   m_EditorClassIdentifier: 
-  allSceneList:
-  - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
-  - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
-  - {fileID: 102900000, guid: 71e128d46c020ba408e8a7293a9bfad7, type: 3}
-  coreScenesList:
-  - {fileID: 102900000, guid: 1bde5d393c232714fb19af3847ffe836, type: 3}
-  - {fileID: 102900000, guid: ad9c9258937546f4bb6462024e3e6ab7, type: 3}
-  - {fileID: 102900000, guid: 71e128d46c020ba408e8a7293a9bfad7, type: 3}
   menuScene: Menu
   loadingScene: Loading
   firstLevelScene: Level1
+  endScene: End

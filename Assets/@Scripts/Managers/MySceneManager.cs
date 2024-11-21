@@ -21,4 +21,10 @@ public class MySceneManager : MonoBehaviour
 	{
 		GameManager.Instance.EndGame();
 	}
+	
+	//Função para reiniciar o jogo
+	public void RestartButton()
+	{
+		GameManager.Instance.BackToMenu();
+	}
 }

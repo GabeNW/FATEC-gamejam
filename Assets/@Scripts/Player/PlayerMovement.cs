@@ -88,8 +88,10 @@ public class PlayerMovement : MonoBehaviour
 		//Eventos de GroundCheck (PlayerEvents)
 		playerEvents.onGround += HandleGrounded;
 		playerEvents.onAir += HandleAirborne;
+		
+		//Outros
+		inputReader.BackToMenuEvent += OnBackToMenu;
 	}
-
 	private void OnDisable()
 	{
 		//Eventos de Input
@@ -103,9 +105,18 @@ public class PlayerMovement : MonoBehaviour
 		//Eventos de GroundCheck (PlayerEvents)
 		playerEvents.onGround -= HandleGrounded;
 		playerEvents.onAir -= HandleAirborne;
+		
+		//Outros
+		inputReader.BackToMenuEvent -= OnBackToMenu;
 	}
+
 	
 	//Inputs
+	//BackToMenu
+	private void OnBackToMenu()
+	{
+		GameManager.Instance.OnBackToMenu();
+	}
 	//Move
 	public void OnMove(Vector2 move)
 	{
@@ -188,6 +199,12 @@ public class PlayerMovement : MonoBehaviour
 
 #region Unity Functions
 	//Unity Functions
+	
+	void Start()
+	{
+		canMove = true;
+	}
+	
 	private void Update()
 	{
 		if (canMove) 
@@ -376,7 +393,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-	//Apertar para pular antecipadamente
+	//JumpBuffer
 	public void JumpBuffer()
 	{
 		if (!isGrounded)

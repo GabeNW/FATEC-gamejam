@@ -8,7 +8,7 @@ MonoImporter:
   - scenesData: {fileID: 11400000, guid: 9144a4f6f47ab8f48a59855aa3b808ee, type: 2}
   - levelManagerData: {fileID: 11400000, guid: 470cd40352708a2438b77a64d801c9fb, type: 2}
   - currentLevel: {instanceID: 0}
-  executionOrder: -1100
+  executionOrder: -1300
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

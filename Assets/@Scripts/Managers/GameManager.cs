@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-	[Header("Input")]
-	[SerializeField] private InputReader inputReader;
-	
 	[Header("Important Data")]
 	//Todas as cenas
 	public ScenesData scenesData;
@@ -33,17 +30,6 @@ public class GameManager : Singleton<GameManager>
 		if (activeScene.name == scenesData.loadingScene)
 			LoadScene(scenesData.menuScene);
 		scrapCollected = 0;
-	}
-	
-	//Inputs
-	private void OnEnable()
-	{
-		inputReader.BackToMenuEvent += OnBackToMenu;
-	}
-	
-	private void OnDisable()
-	{
-		inputReader.BackToMenuEvent -= OnBackToMenu;
 	}
 
 	public void OnBackToMenu()
@@ -100,7 +86,7 @@ public class GameManager : Singleton<GameManager>
 		//Debug.Log("Current Level Index: " + currentLevelIndex + "| Level Cleared: " + levelsCleared + "| Level List Count: " + levelManagerData.levelList.Count);
 #endif
 		if(currentLevelIndex == levelManagerData.levelList.Count)
-			LoadScene(scenesData.menuScene);
+			LoadScene(scenesData.endScene);
 		else
 			LoadScene("Level" + ++currentLevelIndex);
 #if UNITY_EDITOR
@@ -157,7 +143,12 @@ public class GameManager : Singleton<GameManager>
 		}
 		else
 			LoadScene("Level"+(currentLevelIndex+1));
-			
+	}
+	
+	public void BackToMenu()
+	{
+		if (CurrentScene() == scenesData.endScene)
+			LoadScene(scenesData.menuScene);
 	}
 
 	//Função para encerrar o jogo
