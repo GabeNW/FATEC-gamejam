@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +8,27 @@ public class LevelManager : MonoBehaviour
 	[SerializeField] private LevelManagerData levelManagerData;
 	[SerializeField] private List<GameObject> tileMapObjects;
 	[HideInInspector] public LevelData currentLevel;
+	//Animação de mudança de nível
+	[SerializeField] public Animator transitionAnim;
 
 	private int currentWorld = 0;
+	private void OnEnable(){
+		GameManager.Instance.onLevelClear+=NextLevel;
+	}
+
+	private void OnDisable(){
+		GameManager.Instance.onLevelClear-=NextLevel;
+	}
+    private void NextLevel()
+    {
+        StartCoroutine(SceneTransition());
+    }
+
+    IEnumerator SceneTransition(){
+		transitionAnim.SetTrigger("end");
+		yield return new WaitForSeconds(1.5f);
+		GameManager.Instance.NextLevel();
+	}
 
 	private void Awake()
 	{

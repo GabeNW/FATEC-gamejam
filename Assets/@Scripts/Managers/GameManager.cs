@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
@@ -17,6 +19,7 @@ public class GameManager : Singleton<GameManager>
 	//Informações do level atual
 	[HideInInspector] public LevelData currentLevel;
 	
+	public event UnityAction onLevelClear;
 	private const int levels = 4;
 	public bool canSave = false;
 	private int scrapCollected = 0;
@@ -63,7 +66,7 @@ public class GameManager : Singleton<GameManager>
 		if(canSave)
 #endif
 			SaveSystem.Save(levelManagerData);
-		NextLevel();
+		onLevelClear?.Invoke();
 	}
 	
 	//Função para verificar se a cena existe
@@ -101,8 +104,10 @@ public class GameManager : Singleton<GameManager>
 #endif
 		if(currentLevelIndex == levelManagerData.levelList.Count)
 			LoadScene(scenesData.menuScene);
-		else
+		else{
 			LoadScene("Level" + ++currentLevelIndex);
+		}
+			
 #if UNITY_EDITOR
 		//Debug.Log("Current Level Index: " + currentLevelIndex + "| Level Cleared: " + levelsCleared + "| Level List Count: " + levelManagerData.levelList.Count);
 #endif
